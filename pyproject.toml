@@ -3,6 +3,6 @@ name = "Murder-Mystery"
 version = "0.1.0"
 description = "The final project for CS50, made to consolidate all my learning. Uses Flask, HTML, and Python to deliver a one-of-a-kind escape room experience."
 readme = "README.md"
-requires-python = ">3.14"  # Pins exact Python version requirement
+requires-python = ">=3.12"  # Pins exact Python version requirement
 
 dependencies = []
