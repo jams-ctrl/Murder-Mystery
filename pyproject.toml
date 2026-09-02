@@ -1,5 +1,5 @@
 [project]
-name = "Murder Mystery"
+name = "Murder-Mystery"
 version = "0.1.0"
 description = "The final project for CS50, made to consolidate all my learning. Uses Flask, HTML, and Python to deliver a one-of-a-kind escape room experience."
 readme = "README.md"
