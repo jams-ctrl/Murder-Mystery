@@ -6,7 +6,10 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 # Configure application
 app = Flask(__name__)
 
-# Ensure templates are auto-reloaded
+# required for sessions/flashing in production serverless environments
+app.secret_key = os.environ.get("SECRET_KEY", "fallback-dev-key-12345")
+
+# ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # evidence
