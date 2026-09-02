@@ -27,6 +27,9 @@ def guess():
         else:
             return render_template("retry.html",message="Wrong! Try again")
 
+    if request.method == "GET":
+        return render_template("guess.html", evidence=evidence)
+
 @app.route("/check", methods=["GET", "POST"])
 def check():
     # when user makes a guess about the suspect, return template based on response 
@@ -37,6 +40,5 @@ def check():
         else:
             return render_template("guess.html",evidence=evidence,message="Wrong. Try again")
 
-
-
-
+    if request.method == "GET":
+        return redirect("/")
