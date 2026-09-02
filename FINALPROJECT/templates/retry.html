@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- gives user another try at the riddle, replicating the game room exactly  -->
+<html lang="en">
+
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Murder Mystery</title>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Murder Mystery!</h1>
+        </div>
+        <div id="boards">
+            <div id="noteboard">
+                <div id="note">Noteboard</div>
+                <p id="content"></p>
+                <form action="/guess" method="POST" id="riddle">
+                    <input id="ans" name="check" autocomplete="off">
+                    <input type="submit" id="ck">
+                    {{message}}
+                </form>
+            </div>
+
+            <div class="square">
+                <img src="/static/darkRoom.jpg" alt="Dark Room" id="background">
+                <img src="/static/wood.png" alt="Wood" class="overlay wood" id="wood">
+                <img src="/static/locked.png" alt="Chest" class="overlay chest" id="chest">
+                <img src="/static/paint.webp" alt="paint" class="overlay paint" id="paint">
+                <img src="/static/board1.png" alt="board" class="overlay board" id="board">
+                <img src="/static/box.png" alt ="box" class="overlay box" id="box">
+                <img src="/static/rubble.webp" alt="rubble" class="overlay rubble" id="rubble">
+                <img src="/static/blood.png" alt="blood" class="overlay blood" id="blood">
+            </div>
+
+
+            <div id="evidenceBoard">
+                <div id="evidence">Evidence</div>
+                <ul id="intrest"></ul>
+            </div>
+        </div>
+    </body>
+    <script>
+        function addNote(message) {
+            const notesList = document.querySelector("#intrest");
+            const li = document.createElement("li");
+            li.textContent = message;
+            notesList.appendChild(li);
+        }
+        function addContent(message) {
+            document.querySelector("#content").innerHTML=message;
+        }
+        addContent("On the back of the painting is a puzzle! 114 117 98 98 101 114 32 100 117 99 107  what does it mean?");
+    </script>
+</html>

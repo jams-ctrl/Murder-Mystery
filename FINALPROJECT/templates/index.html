@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- the main game page, where user traverses an "escape room" to solve a murder mystery -->
+<html lang="en">
+
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Murder Mystery</title>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Murder Mystery!</h1>
+        </div>
+        <div>
+        </div>
+        <div id="boards">
+            <div id="noteboard">
+                <div id="note">Noteboard</div>
+                <p id="content"> Who killed Ducky? It is YOUR job to find out! Start by clicking on objects to uncover evidence!</p>
+                <form action="/guess" method="POST" id="riddle">
+                    <input type="hidden" id="ans" name="check" autocomplete="off" placeholder="Enter Answer">
+                    <input type="hidden" id="ck">
+                </form>
+            </div>
+
+            <div class="square">
+                <img src="/static/darkRoom.jpg" alt="Dark Room" id="background">
+                <img src="/static/wood.png" alt="Wood" class="overlay wood" id="wood">
+                <img src="/static/locked.png" alt="Chest" class="overlay chest" id="chest">
+                <img src="/static/paint.webp" alt="paint" class="overlay paint" id="paint" hidden="hidden">
+                <img src="/static/board1.png" alt="board" class="overlay board" id="board">
+                <img src="/static/box.png" alt ="box" class="overlay box" id="box">
+                <img src="/static/rubble.webp" alt="rubble" class="overlay rubble" id="rubble">
+                <img src="/static/blood.png" alt="blood" class="overlay blood" id="blood">
+            </div>
+
+
+            <div id="evidenceBoard">
+                <div id="evidence">Evidence</div>
+                <ul id="interest"></ul>
+            </div>
+        </div>
+    </body>
+    <script>
+        let socksFound = false;
+        let nailFound = false;
+        let keyFound = false;
+        let hammerFound = false;
+        let necklaceFound = false;
+        function addNote(message) {
+            // add a bullet point to the evidence board
+            const notesList = document.querySelector("#interest");
+            const li = document.createElement("li");
+            li.textContent = message;
+            notesList.appendChild(li);
+        }
+        function addContent(message) {
+            // change the display on the noteboard
+            document.querySelector("#content").innerHTML=message;
+        }
+        // when interacting with an element in the game field, display adequate response based on user progression
+        document.querySelector(".board").addEventListener("click", () => {
+                if (!hammerFound){
+                    addContent("The wood board does not seem to move, maybe try some force?");
+                } else if (hammerFound){
+                    if (socksFound && necklaceFound){
+                        document.getElementById('board').style.display='none';
+                        addContent("The board has been removed and you see.. a blue cap outside? BOOM! A painting falls from the roof!");
+                        addNote("Blue cap");
+                        document.getElementById('paint').removeAttribute('hidden');
+                    } else {
+                        addContent("There are still more things left to be found!");
+                    }
+                }
+        });
+        document.querySelector(".wood").addEventListener("click", () => {
+            addContent("The scrap wood is removed and you have found a nail.");
+            if (!nailFound){
+                addNote("Nail");
+            }
+            document.getElementById("wood").src = "/static/nail.png";
+            document.getElementById("wood").id = "nail";
+            nailFound = true;
+        });
+        document.querySelector(".box").addEventListener("click", () => {
+            if (!nailFound){
+                addContent("The box seems like it needs something to wedge it open.");
+            } else if (nailFound) {
+                addContent("You used the nail to wedge the box open and a key has been revealed!");
+                document.getElementById("box").src = "/static/key.png";
+                document.getElementById("box").id = "key";
+                if (!keyFound) {
+                    addNote("Key");
+                    keyFound = true;
+                }
+            }
+        });
+        document.querySelector(".chest").addEventListener("click", () => {
+            // add logic requiring a key to open the chest 
+            if (!keyFound){
+                addContent("The chest is locked, it needs a key.");
+            } else if (keyFound){
+                addContent("The chest has been opened! A hammer is revealed!");
+                document.getElementById("chest").src = "/static/hammer.png";
+                document.getElementById("chest").id = "hammer";
+                if (!hammerFound){
+                    addNote("Hammer");
+                    hammerFound = true;
+                }
+            }
+        });
+        document.querySelector(".paint").addEventListener("click", () => {
+            // give riddle and send response to flask for it to handle
+            addContent("On the back of the painting is a puzzle! 114 117 98 98 101 114 32 100 117 99 107 what does it mean?");
+            document.getElementById('ans').removeAttribute('type');
+            document.getElementById('ck').type='submit';
+        });
+        document.querySelector(".rubble").addEventListener("click", () => {
+            addContent("The debris are removed and you find a pair of socks!?");
+            if (!socksFound){
+                addNote("Socks");
+            }
+            document.getElementById('rubble').src="/static/socks.png";
+            document.getElementById("rubble").id = "socks";
+            socksFound = true;
+        });
+        document.querySelector(".blood").addEventListener("click", () => {
+            addContent("The blood is wiped away to reveal a necklace.");
+            if (!necklaceFound){
+                addNote("Necklace");
+            }
+            document.getElementById('blood').src="/static/necklace.png";
+            document.getElementById("blood").id = "necklace";
+            necklaceFound = true;
+        })
+    </script>
+</html>

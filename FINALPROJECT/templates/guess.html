@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- using aquired information, user uses method of elimination to find the correct suspect -->
+<html lang="en">
+
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Murder Mystery</title>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Murder Mystery!</h1>
+        </div>
+        <div id="mainContent">
+            <img src="/static/suspects.png" id="suspects">
+
+            <div id="evidenceB">
+                <div id="evidence" style="color:white">Evidence</div>
+                <ul id="interest">
+                    {% for i in evidence %}
+                        <li>{{ i }}</li>
+                    {% endfor %}
+                </ul>
+                <img src="/static/evidence.png" alt="Cap,Necklace,Socks" id="CNS">
+            </div>
+            <div id="ask">
+            <p style="color:white">Who committed the crime?</p>
+                <form id="check" action="/check" method="POST">
+                    <!-- submit form to flask to check if user typed in correct answer -->
+                    <input type="text" placeholder="Enter suspect name" id="huh" name="check1" autocomplete="off">
+                    <input type="submit" id="down">
+                </form>
+                <p style="color:rgb(255, 0, 0)">{{message}}</p>
+            </div>
+        </div>
+        <p id="names" style="color:white">
+            From left to right: Alex, Debby, Frank, Laurie, Brian
+        </p>
+    </body>
+</html>
